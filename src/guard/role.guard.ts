@@ -15,7 +15,6 @@ export class RolesGuard implements CanActivate{
         // console.log('roles', roles);
 
         const request = context.switchToHttp().getRequest(); // The request object represents the incoming HTTP request. It contains information like headers, the current user, and other request-related data.
-
         if (request?.user) {
             const headers: Headers = request.headers;
             let user = this.userService.user(headers);

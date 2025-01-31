@@ -11,10 +11,9 @@ import * as argon2 from 'argon2';
 
 @Injectable()
 export class UserService {
-
-
   constructor(@InjectRepository(User) private userRepo: Repository<User>, private jwtService: JwtService) { }
   async create(payload: CreateUserDto) {
+    payload.email = payload.email.toLocaleLowerCase();
     const { email, password, ...rest } = payload;
     const user = await this.userRepo.findOne({ where: { email: email } });
     if (user) {
@@ -37,8 +36,9 @@ export class UserService {
     return this.userRepo.findOne({ where: { email } });
   }
 
-  findAll() {
-    return ('This action returns all user');
+  async findAll() {
+    return await this.userRepo.find()
+    // return ('This action returns all user');
   }
 
   findOne(id: number) {
